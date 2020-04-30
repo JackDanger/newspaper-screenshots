@@ -7,6 +7,10 @@
   "author": "Jack Danger",
   "license": "MIT",
   "dependencies": {
+    "chromedriver": "^81.0.0",
     "nightmare": "^3.0.2"
+  },
+  "scripts": {
+    "compile": "tsc *.ts"
   }
 }

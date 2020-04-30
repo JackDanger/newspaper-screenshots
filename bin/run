@@ -1,0 +1,4 @@
+#!/bin/bash
+
+yarn run compile
+exec node index.js
