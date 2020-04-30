@@ -51,9 +51,12 @@ class Publication {
 const publications: Publication[] = [
   new Publication("aljazeera",               "https://www.aljazeera.com/",             ""),
   new Publication("bild",                    "https://www.bild.de/",                   ""),
+  new Publication("chicago-sun-times",       "https://chicago.suntimes.com/",          ""),
+  new Publication("chicago-tribune",         "https://www.chicagotribune.com/",        ""),
   new Publication("dainik-bhaskar",          "https://www.bhaskar.com/",               ""),
   new Publication("guangdong-daily",         "http://www.newsgd.com/",                 ""),
   new Publication("guardian",                "https://www.theguardian.com/us",         "#cmpContainer"),
+  new Publication("le-monde",                "https://www.lemonde.fr/",                ""),
   new Publication("los-angeles-times",       "https://www.latimes.com/",               "#ensNotifyBanner, .met-flyout, iframe, .GoogleDfpAd-wrapper"),
   new Publication("new-york-times",          "https://www.nytimes.com/",               ""),
   new Publication("peoples-daily",           "http://en.people.cn/",                   ".tips"),
@@ -70,8 +73,13 @@ const publications: Publication[] = [
 
 
 if (require.main == module) {
+  var start = new Date();
   var nightmareDriver = nightmare;
   // Chain these calls together
   publications.forEach(publication => nightmareDriver = publication.retrieve(nightmareDriver).end())
-  nightmareDriver.end().catch(console.log)
+
+  nightmareDriver
+    .end()
+    .then(() => console.log(`Script complete in ${(new Date()).valueOf() - start.valueOf()}`))
+    .catch(console.log)
 }
