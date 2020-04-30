@@ -1,13 +1,16 @@
 const fs = require('fs') 
 const Nightmare = require('nightmare');
-const nightmare = Nightmare({
-  width: 3072,
-  height: 1920 * 3,
-  gotoTimeout: 2 * 60 * 1000,
-  waitTimeout: 2 * 60 * 1000,
-  userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
-  show: false
-});
+
+function driver() {
+  return Nightmare({
+    width: 3072,
+    height: 1920 * 3,
+    gotoTimeout: 4 * 60 * 1000,
+    waitTimeout: 2 * 60 * 1000,
+    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
+    show: false
+  })
+}
 
 function currentDatestamp(){
   // e.g. "2020-02-29"
@@ -81,12 +84,17 @@ const publications: Publication[] = [
 
 if (require.main == module) {
   var start = new Date();
-  var nightmareDriver = nightmare;
-  // Chain these calls together
-  publications.forEach(publication => nightmareDriver = publication.retrieve(nightmareDriver).end())
+  Promise.resolve((async () => {
+    for (let i = 0; i < publications.length; i++) {
+      let publication = publications[i];
 
-  nightmareDriver
-    .end()
-    .then(() => console.log(`Script complete in ${(new Date()).valueOf() - start.valueOf()}`))
-    .catch(console.log)
+      console.log(`${publication.name} starting`)
+
+      await publication
+      .retrieve(driver())
+      .end()
+      .then(() => console.log(`${publication.name} complete in ${((new Date()).valueOf() - start.valueOf()) / 1000}`))
+      .catch(console.log)
+    }
+  })())
 }
