@@ -1,0 +1,12 @@
+{
+  "name": "ournightmare",
+  "version": "1.0.0",
+  "description": "Headlines we lived through",
+  "main": "index.js",
+  "repository": "https://github.com/JackDanger/ournightmare",
+  "author": "Jack Danger",
+  "license": "MIT",
+  "dependencies": {
+    "nightmare": "^3.0.2"
+  }
+}
