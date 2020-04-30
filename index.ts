@@ -1,6 +1,13 @@
 const fs = require('fs') 
 const Nightmare = require('nightmare');
-const nightmare = Nightmare({ width: 3072, height: 1920 * 3, show: false });
+const nightmare = Nightmare({
+  width: 3072,
+  height: 1920 * 3,
+  gotoTimeout: 2 * 60 * 1000,
+  waitTimeout: 2 * 60 * 1000,
+  userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
+  show: false
+});
 
 function currentDatestamp(){
   // e.g. "2020-02-29"
