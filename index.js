@@ -66,22 +66,32 @@ var Publication = /** @class */ (function () {
         });
         return nightmareConnection
             .goto(this.homepage)
-            .evaluate(function (name, homepage) { return console.log("Retrieving " + name + " from " + homepage); }, this.name, this.homepage)
+            //.evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
             .wait(5 * 1000)
             .evaluate(function (selector) {
-            var link = document.querySelector(selector);
-            if (link) {
-                link.click();
+            try {
+                var link = document.querySelector(selector);
+                if (link) {
+                    link.click();
+                }
+            }
+            catch (e) {
+                console.log(e);
             }
         }, '.clickhere') // currently just for Times of India
             .evaluate(function (selector) {
-            if (selector.length) {
-                document.querySelectorAll(selector).forEach(function (e) { return e.style = 'display: none'; });
+            try {
+                if (selector.length) {
+                    document.querySelectorAll(selector).forEach(function (e) { return e.style = 'display: none'; });
+                }
+            }
+            catch (e) {
+                console.log(e);
             }
         }, this.thingsToHide)
             .wait(5 * 1000)
-            .screenshot(pngFilename)
-            .evaluate(function (name, start) { return console.log("  finished " + name + " in " + ((new Date()).valueOf() - start.valueOf())); }, this.name, start);
+            .screenshot(pngFilename);
+        //.evaluate((name, start) => console.log(`  finished ${name} in ${(new Date()).valueOf() - start.valueOf()}`), this.name, start)
     };
     return Publication;
 }());

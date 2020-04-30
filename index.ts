@@ -39,22 +39,30 @@ class Publication {
 
     return nightmareConnection
       .goto(this.homepage)
-      .evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
+      //.evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
       .wait(5 * 1000)
       .evaluate(selector => {
-        let link: HTMLElement = document.querySelector(selector)
-        if (link) {
-          link.click()
+        try {
+          let link: HTMLElement = document.querySelector(selector)
+          if (link) {
+            link.click()
+          }
+        } catch (e) {
+          console.log(e)
         }
       }, '.clickhere') // currently just for Times of India
       .evaluate(selector => {
-        if (selector.length) {
-          document.querySelectorAll(selector).forEach((e) => e.style = 'display: none')
+        try {
+          if (selector.length) {
+            document.querySelectorAll(selector).forEach((e) => e.style = 'display: none')
+          }
+        } catch (e) {
+          console.log(e)
         }
       }, this.thingsToHide)
       .wait(5 * 1000)
       .screenshot(pngFilename)
-      .evaluate((name, start) => console.log(`  finished ${name} in ${(new Date()).valueOf() - start.valueOf()}`), this.name, start)
+      //.evaluate((name, start) => console.log(`  finished ${name} in ${(new Date()).valueOf() - start.valueOf()}`), this.name, start)
   }
 }
 
