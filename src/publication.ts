@@ -35,7 +35,7 @@ export class Publication implements Fetchable {
     return driver
       .goto(this.homepage)
       //.evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
-      .wait(5 * 1000)
+      .wait(10 * 1000)
       .evaluate(() => { // currently just for Times of India
         try {
           let link: HTMLElement = document.querySelector('.clickhere')
@@ -55,7 +55,7 @@ export class Publication implements Fetchable {
           console.log(e)
         }
       }, ()=>{}, this.thingsToHide)
-      .wait(5 * 1000)
+      .wait(3 * 1000)
       .screenshot(pngFilename)
       //.evaluate((name, start) => console.log(`  finished ${name} in ${(new Date()).valueOf() - start.valueOf()}`), this.name, start)
   }

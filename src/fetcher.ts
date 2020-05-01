@@ -1,9 +1,9 @@
 import { publications, Publication } from './publication.js';
 
-import * as Nightmare from 'nightmare';
+import Nightmare from 'nightmare';
 
 function driver() {
-  return Nightmare.Nightmare({
+  return new Nightmare({
     width: 3072,
     height: 1920 * 3,
     gotoTimeout: 4 * 60 * 1000,
@@ -38,5 +38,4 @@ if (undefined === process.env.PUBLICATION_NAME) {
   process.exit(1)
 }
 let fetcher = new Fetcher(process.env.PUBLICATION_NAME);
-console.log(Promise.resolve(fetcher.retrieve()))
-console.log('EOF')
+Promise.resolve(fetcher.retrieve())
