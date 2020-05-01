@@ -1,2 +1,4 @@
 #!/bin/bash
+rootdir=$(cd $(dirname $0)/.. && pwd)
+cd $rootdir
 exec yarn run watch

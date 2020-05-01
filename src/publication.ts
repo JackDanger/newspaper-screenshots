@@ -37,29 +37,18 @@ export class Publication implements Fetchable {
       //.evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
       .wait(10 * 1000)
       .evaluate(() => { // currently just for Times of India
-        console.log(this)
-        try {
-          let link: HTMLElement = document.querySelector('.clickhere')
-          if (link) {
-            link.click()
-          }
-        } catch (e) {
-          console.log(e)
+        let link: HTMLElement = document.querySelector('.clickhere')
+        if (link) {
+          link.click()
         }
       })
       .evaluate<string>((selector: string)=> {
-        console.log(this)
-        try {
-          if (selector.length) {
-            document.querySelectorAll(selector).forEach((e) => (e as HTMLElement).style.display = 'none')
-          }
-        } catch (e) {
-          console.log(e)
+        if (selector.length) {
+          document.querySelectorAll(selector).forEach((e) => (e as HTMLElement).style.display = 'none')
         }
       }, ()=>{}, this.thingsToHide)
       .wait(3 * 1000)
       .screenshot(pngFilename)
-      //.evaluate((name, start) => console.log(`  finished ${name} in ${(new Date()).valueOf() - start.valueOf()}`), this.name, start)
   }
 }
 
@@ -72,6 +61,7 @@ export const publications: Publication[] = [
   new Publication("frankfurter-allgemeine",  "https://www.faz.net/aktuell/",           ""),
   new Publication("guangdong-daily",         "http://www.newsgd.com/",                 ""),
   new Publication("guardian",                "https://www.theguardian.com/us",         "#cmpContainer"),
+  new Publication("handelsblatt",            "https://www.handelsblatt.com/",          ""),
   new Publication("le-monde",                "https://www.lemonde.fr/",                ""),
   new Publication("los-angeles-times",       "https://www.latimes.com/",               "#ensNotifyBanner, .met-flyout, iframe, .GoogleDfpAd-wrapper"),
   new Publication("new-york-times",          "https://www.nytimes.com/",               ""),

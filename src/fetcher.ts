@@ -6,7 +6,7 @@ import { publications, Publication } from './publication.js';
 function driver() {
   return new Nightmare({
     width: 2000,
-    height: 1920 * 3,
+    height: 4000,
     gotoTimeout: 4 * 60 * 1000,
     waitTimeout: 2 * 60 * 1000,
     userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
@@ -40,7 +40,7 @@ if (undefined === process.env.PUBLICATION_NAME) {
   process.exit(1)
 }
 // First, kill any existing Electron apps. Furreal.
-const cleanupCommand = "ps aux | grep Electro[n].app | grep newspaper-screenshots | awk '{print $2}' | xargs kill -9"
+const cleanupCommand = "ps aux | grep Electro[n].app | grep newspaper-screenshots | awk '{print $2}' | xargs kill -9 && sleep 10"
 console.log(child_process.spawnSync('bash', ['-c', cleanupCommand]).stdout.toString())
 
 let fetcher = new Fetcher(process.env.PUBLICATION_NAME);
