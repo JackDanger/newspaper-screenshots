@@ -1,6 +1,7 @@
-import { publications, Publication } from './publication.js';
-
+import child_process from 'child_process';
 import Nightmare from 'nightmare';
+
+import { publications, Publication } from './publication.js';
 
 function driver() {
   return new Nightmare({
@@ -38,5 +39,9 @@ if (undefined === process.env.PUBLICATION_NAME) {
   console.log(`USAGE: PUBLICATION_NAME=nytimes node ${process.argv[0]}`)
   process.exit(1)
 }
+// First, kill any existing Electron apps. Furreal.
+const cleanupCommand = "ps aux | grep Electro[n].app | grep newspaper-screenshots | awk '{print $2}' | xargs kill -9"
+console.log(child_process.spawnSync('bash', ['-c', cleanupCommand]).stdout.toString())
+
 let fetcher = new Fetcher(process.env.PUBLICATION_NAME);
 Promise.resolve(fetcher.retrieve())
