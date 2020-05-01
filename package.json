@@ -1,16 +1,21 @@
 {
-  "name": "ournightmare",
+  "name": "newspaper-screenshots",
+  "type": "module",
   "version": "1.0.0",
   "description": "Headlines we lived through",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/JackDanger/ournightmare",
   "author": "Jack Danger",
   "license": "MIT",
   "dependencies": {
+    "@types/nightmare": "^2.10.4",
     "chromedriver": "^81.0.0",
-    "nightmare": "^3.0.2"
+    "nightmare": "^3.0.2",
+    "typescript": "^3.8.3"
   },
   "scripts": {
-    "compile": "tsc *.ts"
+    "build": "tsc --build",
+    "watch": "tsc --build -w",
+    "fetch": "node dist/fetcher.js"
   }
 }

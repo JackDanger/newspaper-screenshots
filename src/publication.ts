@@ -1,23 +1,19 @@
-const fs = require('fs') 
-const Nightmare = require('nightmare');
-
-function driver() {
-  return Nightmare({
-    width: 3072,
-    height: 1920 * 3,
-    gotoTimeout: 4 * 60 * 1000,
-    waitTimeout: 2 * 60 * 1000,
-    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
-    show: false
-  })
-}
+import fs from 'fs';
+import * as Nightmare from 'nightmare';
 
 function currentDatestamp(){
   // e.g. "2020-02-29"
   return (new Date()).toISOString().split('T')[0];
 }
 
-class Publication {
+type Fetchable = {
+  name: string;
+  homepage: string;
+  thingsToHide: string;
+  retrieve: (driver: Nightmare) => Nightmare;
+}
+
+export class Publication implements Fetchable {
   name: string;
   homepage: string;
   thingsToHide: string;
@@ -28,8 +24,7 @@ class Publication {
     this.thingsToHide = thingsToHide;
   }
 
-  retrieve(nightmareConnection) {
-    let start = new Date();
+  retrieve(driver: Nightmare) {
     let dirname = `screenshots/${currentDatestamp()}`;
     let pngFilename = `${dirname}/${this.name}.png`;
 
@@ -37,36 +32,36 @@ class Publication {
       fs.mkdir(dirname, function(){})
     })
 
-    return nightmareConnection
+    return driver
       .goto(this.homepage)
       //.evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
       .wait(5 * 1000)
-      .evaluate(selector => {
+      .evaluate(() => { // currently just for Times of India
         try {
-          let link: HTMLElement = document.querySelector(selector)
+          let link: HTMLElement = document.querySelector('.clickhere')
           if (link) {
             link.click()
           }
         } catch (e) {
           console.log(e)
         }
-      }, '.clickhere') // currently just for Times of India
-      .evaluate(selector => {
+      })
+      .evaluate<string>((selector: string)=> {
         try {
           if (selector.length) {
-            document.querySelectorAll(selector).forEach((e) => e.style = 'display: none')
+            document.querySelectorAll(selector).forEach((e) => (e as HTMLElement).style.display = 'none')
           }
         } catch (e) {
           console.log(e)
         }
-      }, this.thingsToHide)
+      }, ()=>{}, this.thingsToHide)
       .wait(5 * 1000)
       .screenshot(pngFilename)
       //.evaluate((name, start) => console.log(`  finished ${name} in ${(new Date()).valueOf() - start.valueOf()}`), this.name, start)
   }
 }
 
-const publications: Publication[] = [
+export const publications: Publication[] = [
   new Publication("aljazeera",               "https://www.aljazeera.com/",             ""),
   new Publication("bild",                    "https://www.bild.de/",                   ""),
   new Publication("chicago-sun-times",       "https://chicago.suntimes.com/",          ""),
@@ -88,21 +83,3 @@ const publications: Publication[] = [
   new Publication("washington-post",         "https://www.washingtonpost.com/",        ""),
   new Publication("yomiuri-shimbun",         "https://www.yomiuri.co.jp/",             ""),
 ]
-
-
-if (require.main == module) {
-  var start = new Date();
-  Promise.resolve((async () => {
-    for (let i = 0; i < publications.length; i++) {
-      let publication = publications[i];
-
-      console.log(`${publication.name} starting`)
-
-      await publication
-      .retrieve(driver())
-      .end()
-      .then(() => console.log(`${publication.name} complete in ${((new Date()).valueOf() - start.valueOf()) / 1000}`))
-      .catch(console.log)
-    }
-  })())
-}

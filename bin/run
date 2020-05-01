@@ -1,4 +1,4 @@
 #!/bin/bash
 
-yarn run compile
-exec node index.js
+yarn run build
+exec node dist/index.js
