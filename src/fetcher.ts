@@ -4,11 +4,12 @@ import Nightmare from 'nightmare';
 
 function driver() {
   return new Nightmare({
-    width: 3072,
+    width: 2000,
     height: 1920 * 3,
     gotoTimeout: 4 * 60 * 1000,
     waitTimeout: 2 * 60 * 1000,
     userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36",
+    switches: { 'ignore-certificate-errors': true },
     show: false
   } as Nightmare.IConstructorOptions)
 }

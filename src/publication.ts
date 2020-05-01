@@ -37,6 +37,7 @@ export class Publication implements Fetchable {
       //.evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
       .wait(10 * 1000)
       .evaluate(() => { // currently just for Times of India
+        console.log(this)
         try {
           let link: HTMLElement = document.querySelector('.clickhere')
           if (link) {
@@ -47,6 +48,7 @@ export class Publication implements Fetchable {
         }
       })
       .evaluate<string>((selector: string)=> {
+        console.log(this)
         try {
           if (selector.length) {
             document.querySelectorAll(selector).forEach((e) => (e as HTMLElement).style.display = 'none')
@@ -67,6 +69,7 @@ export const publications: Publication[] = [
   new Publication("chicago-sun-times",       "https://chicago.suntimes.com/",          ""),
   new Publication("chicago-tribune",         "https://www.chicagotribune.com/",        ""),
   new Publication("dainik-bhaskar",          "https://www.bhaskar.com/",               ""),
+  new Publication("frankfurter-allgemeine",  "https://www.faz.net/aktuell/",           ""),
   new Publication("guangdong-daily",         "http://www.newsgd.com/",                 ""),
   new Publication("guardian",                "https://www.theguardian.com/us",         "#cmpContainer"),
   new Publication("le-monde",                "https://www.lemonde.fr/",                ""),
