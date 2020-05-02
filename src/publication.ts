@@ -34,7 +34,6 @@ export class Publication implements Fetchable {
 
     return driver
       .goto(this.homepage)
-      //.evaluate((name, homepage) => console.log(`Retrieving ${name} from ${homepage}`), this.name, this.homepage)
       .wait(10 * 1000)
       .evaluate(() => { // currently just for Times of India
         let link: HTMLElement = document.querySelector('.clickhere')
@@ -60,6 +59,7 @@ export const publications: Publication[] = [
   new Publication("chicago-tribune",             "https://www.chicagotribune.com/",        ""),
   new Publication("dainik-bhaskar",              "https://www.bhaskar.com/",               ""),
   new Publication("frankfurter-allgemeine",      "https://www.faz.net/aktuell/",           ""),
+  new Publication("google-news",                 "https://news.google.com",                ""),
   new Publication("guangdong-daily",             "http://www.newsgd.com/",                 ""),
   new Publication("guardian",                    "https://www.theguardian.com/us",         "#cmpContainer"),
   new Publication("handelsblatt",                "https://www.handelsblatt.com/",          ""),
