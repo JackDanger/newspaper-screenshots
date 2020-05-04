@@ -4,13 +4,12 @@
   "version": "1.0.0",
   "description": "Headlines we lived through",
   "main": "dist/index.js",
-  "repository": "https://github.com/JackDanger/ournightmare",
+  "repository": "https://github.com/JackDanger/newspaper-screenshots",
   "author": "Jack Danger",
   "license": "MIT",
   "dependencies": {
-    "@types/nightmare": "^2.10.4",
     "chromedriver": "^81.0.0",
-    "nightmare": "^3.0.2",
+    "electron": "^8.2.5",
     "typescript": "^3.8.3"
   },
   "scripts": {
