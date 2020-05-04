@@ -35,7 +35,13 @@ class Fetcher {
   }
 }
 
-if (undefined === process.env.PUBLICATION_NAME) {
+let publicationName = "";
+if (process.argv.length > 2) {
+  publicationName = process.argv[2];
+} else {
+  publicationName = process.env.PUBLICATION_NAME;
+}
+if (publicationName == "") {
   console.log(`USAGE: PUBLICATION_NAME=nytimes node ${process.argv[0]}`)
   process.exit(1)
 }
@@ -43,5 +49,5 @@ if (undefined === process.env.PUBLICATION_NAME) {
 const cleanupCommand = "ps aux | grep Electro[n].app | grep newspaper-screenshots | awk '{print $2}' | xargs kill -9 && sleep 10"
 console.log(child_process.spawnSync('bash', ['-c', cleanupCommand]).stdout.toString())
 
-let fetcher = new Fetcher(process.env.PUBLICATION_NAME);
+let fetcher = new Fetcher(publicationName);
 Promise.resolve(fetcher.retrieve())
