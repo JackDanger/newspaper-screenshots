@@ -1,6 +1,5 @@
 {
   "name": "newspaper-screenshots",
-  "type": "module",
   "version": "1.0.0",
   "description": "Headlines we lived through",
   "main": "dist/index.js",
@@ -8,12 +7,15 @@
   "author": "Jack Danger",
   "license": "MIT",
   "dependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/node": "^12.12.37",
     "chromedriver": "^81.0.0",
     "electron": "^8.2.5",
+    "esm": "^3.2.25",
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc --build ",
     "watch": "tsc --build -w",
     "fetch": "node dist/fetcher.js"
   }

@@ -1,19 +1,9 @@
-import fs from 'fs';
-import * as Nightmare from 'nightmare';
+//function currentDatestamp(){
+//  // e.g. "2020-02-29"
+//  return (new Date()).toISOString().split('T')[0];
+//}
 
-function currentDatestamp(){
-  // e.g. "2020-02-29"
-  return (new Date()).toISOString().split('T')[0];
-}
-
-type Fetchable = {
-  name: string;
-  homepage: string;
-  thingsToHide: string;
-  retrieve: (driver: Nightmare) => Nightmare;
-}
-
-export class Publication implements Fetchable {
+export class Publication {
   name: string;
   homepage: string;
   thingsToHide: string;
@@ -22,32 +12,6 @@ export class Publication implements Fetchable {
     this.name = name;
     this.homepage = homepage;
     this.thingsToHide = thingsToHide;
-  }
-
-  retrieve(driver: Nightmare) {
-    let dirname = `screenshots/${currentDatestamp()}`;
-    let pngFilename = `${dirname}/${this.name}.png`;
-
-    fs.mkdir('screenshots', function(){
-      fs.mkdir(dirname, function(){})
-    })
-
-    return driver
-      .goto(this.homepage)
-      .wait(10 * 1000)
-      .evaluate(() => { // currently just for Times of India
-        let link: HTMLElement = document.querySelector('.clickhere')
-        if (link) {
-          link.click()
-        }
-      })
-      .evaluate<string>((selector: string)=> {
-        if (selector.length) {
-          document.querySelectorAll(selector).forEach((e) => (e as HTMLElement).style.display = 'none')
-        }
-      }, ()=>{}, this.thingsToHide)
-      .wait(3 * 1000)
-      .screenshot(pngFilename)
   }
 }
 

@@ -1,27 +1,25 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "alwaysStrict": true,
+    "declaration": true,
+    "lib": [ "es2017", "dom" ],
     "module": "ES2015",
     "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "sourceMap": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "target": "es2017",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "outDir": "./dist",
-    "noUnusedLocals": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "alwaysStrict": true,
+    "noUnusedLocals": true,
     "noUnusedParameters": false,
+    "outDir": "./dist",
+    "preserveConstEnums": true,
     "pretty": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowUnreachableCode": false
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es2017"
   },
   "include": [
     "src/"
