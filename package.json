@@ -2,7 +2,7 @@
   "name": "newspaper-screenshots",
   "version": "1.0.0",
   "description": "Headlines we lived through",
-  "main": "dist/index.js",
+  "main": "src/app.js",
   "repository": "https://github.com/JackDanger/newspaper-screenshots",
   "author": "Jack Danger",
   "license": "MIT",
@@ -16,7 +16,6 @@
   },
   "scripts": {
     "build": "tsc --build ",
-    "watch": "tsc --build -w",
-    "fetch": "node dist/fetcher.js"
+    "watch": "tsc --build -w"
   }
 }
