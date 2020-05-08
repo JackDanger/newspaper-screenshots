@@ -2,5 +2,9 @@
 
 rootdir=$(cd $(dirname $0)/.. && pwd)
 cd $rootdir
-yarn run build
-exec node dist/index.js
+exitcode=1
+while [[ ${exitcode} -ne 0 ]]; do
+  mkdir -p logs
+  nohup node_modules/electron/cli.js src/app.js >> logs/cron.log
+  exitcode=$?
+done
