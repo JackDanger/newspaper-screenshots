@@ -1,16 +1,19 @@
 // This file runs as an argument to electron's cli.js
+// TODO: encapsulate all the non-electron parts, exposing them to a runner that can check for done-ness
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 const width = 2000;
 const height = 5000;
+const waitSecondsAfterLoad = 2;
+const show = false;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
-const debug = false;
+const debug = true;
 function log(...args) {
   if (debug) {
     console.log(...args)
@@ -24,13 +27,20 @@ function currentDatestamp(){
   return `${today.getFullYear()}-${pad(1 + today.getMonth())}-${pad(today.getDate())}`
 }
 
+const pathForTodaysScreenshots = `screenshots/${currentDatestamp()}/`;
+const pathForTodayDone = `${pathForTodaysScreenshots}/.done`;
+
+function isTodayComplete() {
+  return fs.existsSync(pathForTodayDone);
+}
+
 class Publication {
   constructor(name, homepage, thingsToHide) {
     this.name = name;
     this.homepage = homepage;
     this.thingsToHide = thingsToHide;
 
-    this.pathForTodaysScreenshot = `screenshots/${currentDatestamp()}/${this.name}.png`;
+    this.pathForTodaysScreenshot = `${pathForTodaysScreenshots}/${this.name}.png`;
   }
 
   isAlreadyProcessedToday() {
@@ -58,7 +68,6 @@ const publications = [
   new Publication("san-francisco-chronicle",     "https://www.sfchronicle.com/",                       ".fancybox-overlay"),
   new Publication("seattle-times",               "https://www.seattletimes.com/",                      ""),
   new Publication("tampa-bay-times",             "https://tampabay.com/",                              "#gdpr, .browser-warning"),
-  new Publication("times-of-india",              "https://timesofindia.indiatimes.com/us",             ""),
   new Publication("usa-today",                   "https://www.usatoday.com/",                          ".onetrust-consent-sdk"),
   new Publication("wall-street-journal",         "https://www.wsj.com/",                               ".cx-candybar, #AD_PUSH"),
   new Publication("washington-post",             "https://www.washingtonpost.com/",                    ""),
@@ -71,14 +80,9 @@ function wait(delay) {
 
 function hide(selector) {
   let js = `
-    document.querySelectorAll('.clickhere').forEach((e) => e.click())
     "${selector}".length && document.querySelectorAll("${selector}").forEach((e) => e.style.display = 'none')
-`
-  try {
+`;
     return win.webContents.executeJavaScript(js)
-  } catch (e) {
-    console.log(e)
-  }
 }
 
 async function createWindow () {
@@ -88,7 +92,7 @@ async function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
     enableLargerThanScreen: true,
-    show: false
+    show: show
   })
   win.setSize(width, height)
 
@@ -107,20 +111,21 @@ async function createWindow () {
     let publication = publications[i];
 
     if (publication.isAlreadyProcessedToday()) {
-      console.log('skipping', publication.pathForTodaysScreenshot)
+      console.log('  skipping', publication.pathForTodaysScreenshot)
     } else {
       log('publication:', publication.name)
       try {
-        await win.loadURL(publication.homepage, { 'Accept-Language': 'en' })
+        await win.loadURL(publication.homepage, { 'Accept-Language': 'en', userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36" })
       } catch (e) {
         console.error(e)
+        setTimeout(() => { win.close(); app.quit() }, waitSecondsAfterLoad * 5 * 1000)
       }
       log('now waiting')
-      await wait(2 * 1000)
+      await wait(waitSecondsAfterLoad * 1000)
       log('got', publication.homepage)
       await hide(publication.thingsToHide)
       log('gonna screenshot', publication.homepage)
-      await win.capturePage().then(image => { log('got image'); fs.writeFile(publication.pathForTodaysScreenshot, image.toPNG(), ()=>{}) })
+      await win.capturePage().then(image => { console.log('+ writing ', publication.pathForTodaysScreenshot); fs.writeFile(publication.pathForTodaysScreenshot, image.toPNG(), ()=>{}) })
     }
   }
 

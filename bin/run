@@ -1,10 +1,11 @@
 #!/bin/bash
 
+set -x
 rootdir=$(cd $(dirname $0)/.. && pwd)
 cd $rootdir
 exitcode=1
-while [[ ${exitcode} -ne 0 ]]; do
+seq 10 | while read _; do
   mkdir -p logs
-  nohup node_modules/electron/cli.js src/app.js >> logs/cron.log
+  2>&1 node_modules/electron/cli.js src/app.js >> logs/cron.log
   exitcode=$?
 done
