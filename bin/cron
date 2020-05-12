@@ -4,5 +4,4 @@ set -x
 rootdir=$(cd $(dirname $0)/.. && pwd)
 cd $rootdir
 mkdir -p logs
-2>&1 bin/run >> logs/cron.log &
-disown %1
+2>&1 bin/run >> logs/cron.log
