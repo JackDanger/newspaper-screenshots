@@ -54,7 +54,7 @@ const publications = [
   new Publication("bild",                        "https://www.bild.de/",                               ""),
   new Publication("chicago-sun-times",           "https://chicago.suntimes.com/",                      ""),
   new Publication("chicago-tribune",             "https://www.chicagotribune.com/",                    ""),
-  new Publication("dainik-bhaskar",              "https://www.bhaskar.com/",                           ""),
+  // new Publication("dainik-bhaskar",              "https://www.bhaskar.com/",                           ""),
   new Publication("frankfurter-allgemeine",      "https://www.faz.net/aktuell/",                       ""),
   new Publication("google-news",                 "https://news.google.com/?hl=en-US&gl=US&ceid=US:en", ""),
   new Publication("guangdong-daily",             "http://www.newsgd.com/",                             ""),
