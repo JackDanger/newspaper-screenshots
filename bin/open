@@ -1,0 +1,5 @@
+#!/bin/bash
+
+last=$(ls -1 screenshots | sort | tail -n 1)
+ls -lAG screenshots/${last}/
+open screenshots/${last}
