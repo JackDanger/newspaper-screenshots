@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 rootdir=$(cd $(dirname $0)/.. && pwd)
 cd $rootdir
 exitcode=1
