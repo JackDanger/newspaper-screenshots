@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -x
+root=$(cd $(dirname $0)/.. && pwd)
+for dir in ${root}/screenshots/*; do
+  mv $dir ~/Google\ Drive/Backups/NewspaperScreenshots/
+done
