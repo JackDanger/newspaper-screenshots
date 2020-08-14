@@ -1,0 +1,14 @@
+
+#!/bin/bash
+
+rootdir=$(cd $(dirname $0)/.. && pwd)
+cd $rootdir
+
+if [[ -z "${1}" ]]; then
+  >&2 echo "USAGE: ${0} some-publication-name"
+  exit 1
+fi
+export PUBLICATION_NAME=${1}
+yarn build
+exec yarn run fetch
+

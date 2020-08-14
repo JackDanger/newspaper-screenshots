@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "alwaysStrict": true,
+    "declaration": true,
+    "lib": [ "es2017", "dom" ],
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "outDir": "./dist",
+    "preserveConstEnums": true,
+    "pretty": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es2017"
+  },
+  "include": [
+    "src/"
+  ],
+  "exclude": [
+    "node_modules/"
+  ]
+}

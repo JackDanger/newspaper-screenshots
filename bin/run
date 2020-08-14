@@ -1,0 +1,12 @@
+#!/bin/bash
+
+rootdir=$(cd $(dirname $0)/.. && pwd)
+cd $rootdir
+exitcode=1
+seq 10 | while read _; do
+  mkdir -p logs
+  2>&1 node_modules/electron/cli.js src/app.js >> logs/cron.log
+  exitcode=$?
+done
+git add screenshots
+git commit -m "adding screenshots for $(date +%Y-%m-%d)"
