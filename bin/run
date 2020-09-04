@@ -8,5 +8,3 @@ seq 10 | while read _; do
   2>&1 node_modules/electron/cli.js src/app.js >> logs/cron.log
   exitcode=$?
 done
-git add screenshots
-git commit -m "adding screenshots for $(date +%Y-%m-%d)"
