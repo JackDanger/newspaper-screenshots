@@ -10,7 +10,7 @@
     "@types/electron": "^1.6.10",
     "@types/node": "^12.12.37",
     "chromedriver": "^81.0.0",
-    "electron": "^8.2.5",
+    "electron": "^8.5.2",
     "esm": "^3.2.25",
     "typescript": "^3.8.3"
   },
