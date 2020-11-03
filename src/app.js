@@ -23,7 +23,7 @@ function log(...args) {
 function currentDatestamp(){
   // e.g. "2020-02-29"
   let today = new Date()
-  const pad = (n) => n > 10 ? `${n}` : `0${n}`
+  const pad = (n) => n >= 10 ? `${n}` : `0${n}`
   return `${today.getFullYear()}-${pad(1 + today.getMonth())}-${pad(today.getDate())}`
 }
 
@@ -54,8 +54,7 @@ const publications = [
   new Publication("bild",                        "https://www.bild.de/",                               ""),
   new Publication("chicago-sun-times",           "https://chicago.suntimes.com/",                      ""),
   new Publication("chicago-tribune",             "https://www.chicagotribune.com/",                    ""),
-  // new Publication("dainik-bhaskar",              "https://www.bhaskar.com/",                           ""),
-  new Publication("frankfurter-allgemeine",      "https://www.faz.net/aktuell/",                       ""),
+  new Publication("frankfurter-allgemeine",      "https://www.faz.net/aktuell/",                       "message-overlay, .message.type-modal"),
   new Publication("google-news",                 "https://news.google.com/?hl=en-US&gl=US&ceid=US:en", ""),
   new Publication("guangdong-daily",             "http://www.newsgd.com/",                             ""),
   new Publication("guardian",                    "https://www.theguardian.com/us",                     "#cmpContainer"),
